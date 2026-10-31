@@ -1,0 +1,73 @@
+kb_id,title,category,subcategory,affected_service,keywords,symptoms,root_cause,resolution_steps,relevant_excerpt
+KB-2001,Resolving Okta MFA Push Notification Timeout and Device Re-enrollment,Identity & Access Management,MFA / 2FA,Okta Verify,"[""mfa"", ""okta verify"", ""push notification"", ""timeout"", ""re-enroll"", ""2fa""]",User does not receive push notifications on mobile device or receives 'Push request timed out'.,Desynchronized device push token in Okta backend or clock skew on mobile endpoint.,"1. Navigate to Okta Admin Console > Directory > People.
+2. Select affected user and go to 'Reset Authenticators'.
+3. Clear Okta Verify enrollment.
+4. Have user log in to portal.company.com and scan the newly generated QR code with Okta Verify.
+5. Verify successful push challenge.","To fix Okta MFA push timeouts, reset the authenticator enrollment in Okta Admin Console and have the user scan a fresh enrollment QR code."
+KB-2002,GlobalProtect VPN Error: 'Could not connect to gateway' / TLS Handshake Failure,Network & Connectivity,VPN,GlobalProtect,"[""vpn"", ""globalprotect"", ""tls handshake"", ""gateway"", ""palo alto"", ""network timeout""]",GlobalProtect client stuck on 'Connecting' or fails with 'Could not connect to gateway' on Windows/macOS.,Cached stale gateway DNS entry or missing root certificate renewal in system trust store.,"1. Close GlobalProtect from system tray.
+2. Run 'ipconfig /flushdns' in elevated Command Prompt.
+3. Delete folder '%LOCALAPPDATA%\Palo Alto Networks\GlobalProtect\PanGPS'.
+4. Restart the 'PanGPS' service in services.msc.
+5. Re-authenticate via SSO credentials and connect to secondary gateway 'gw-backup.corp.internal' if primary is throttled.","Flush DNS and restart PanGPS service, then delete the PanGPS cache folder under %LOCALAPPDATA% before reconnecting."
+KB-2003,SAP GUI Session Timeout and RFC Connection Failure (RFC_ERROR_COMMUNICATION),Enterprise Applications,SAP ERP,SAP ECC / S4HANA,"[""sap"", ""rfc"", ""timeout"", ""sapgui"", ""connection lost"", ""dump"", ""wsaeconnreset""]",SAP GUI sessions terminate with error 'WSAECONNRESET: Connection reset by peer' or RFC_ERROR_COMMUNICATION during report execution.,Firewall state table timeout closing idle TCP connections shorter than SAP keepalive interval (rdisp/keepalive).,"1. Verify SAP instance health via transaction SM50 / SM66 for dialog process bottlenecks.
+2. Check client SAP GUI connection settings in saplogon.ini: ensure WAN/High Latency option is selected.
+3. For batch reports exceeding 600s, guide user to execute in background mode via F9 instead of foreground.
+4. If widespread, check firewall idle connection timeout on port 3200-3300 series.",Configure SAP GUI connection profile with 'Slow Connection' mode and run long queries in background mode (F9) to prevent TCP idle drop.
+KB-2004,Microsoft Outlook Keeps Prompting for Password / Modern Auth Failure,Collaboration & Email,Microsoft 365 / Outlook,Exchange Online / Outlook 365,"[""outlook"", ""credentials"", ""modern auth"", ""password prompt"", ""token"", ""office 365""]","Outlook status bar shows 'Need Password' or 'Disconnected', clicking prompt loops back without accepting valid credentials.",Corrupted Microsoft Office Identity Broker token in Windows Credential Manager or Workplace Join conflict.,"1. Close all Office 365 applications.
+2. Open Windows Credential Manager > Windows Credentials.
+3. Remove all entries beginning with 'MicrosoftOffice16_Data:' and 'adal_token'.
+4. Navigate to Settings > Accounts > Access work or school; re-authenticate.
+5. Relaunch Outlook to complete Web Account Manager (WAM) modern auth flow.",Purge stale 'MicrosoftOffice16_Data' entries from Windows Credential Manager and re-authenticate work account in Windows Settings.
+KB-2005,AWS S3 Access Denied (HTTP 403) on CI/CD Deployment Role,Cloud & Infrastructure,AWS IAM / S3,AWS Cloud Services,"[""aws"", ""s3"", ""403 forbidden"", ""iam"", ""kms"", ""bucket policy""]",Automated pipelines or Terraform runs fail with 'AccessDenied: User or role is not authorized to perform: s3:PutObject'.,KMS Key policy lacks decrypt/encrypt permissions for the deployment IAM role or bucket policy enforces mandatory KMS condition.,"1. Check S3 bucket policy for explicit Deny clauses (e.g. s3:x-amz-server-side-encryption condition).
+2. Inspect KMS Key Policy for the bucket's target KMS CMK ARN; ensure role ARN is included in 'kms:GenerateDataKey' and 'kms:Decrypt'.
+3. Update IAM deployment role policy to grant 'kms:Decrypt' on custom encryption key.
+4. Retrigger pipeline build.",Ensure target KMS CMK policy includes 'kms:GenerateDataKey' and 'kms:Decrypt' permissions for the IAM deployment role.
+KB-2006,Active Directory Account Lockout Investigation and Remediation,Identity & Access Management,Active Directory,Active Directory Domain Services,"[""active directory"", ""account locked"", ""ad lockout"", ""badpwdcount"", ""kerberos""]",User account repeatedly locks out every 15-30 minutes despite password change.,"Cached expired credentials in Windows Credential Manager, stale mapped network drives, or active mobile ActiveSync profile.","1. Query PDC Emulator using 'repadmin /showmeta' or Event Viewer Security Log (Event ID 4740) to find caller computer name.
+2. On caller computer, check Credential Manager and remove saved domain passwords.
+3. Disconnect and re-map network drives using 'net use * /delete /yes'.
+4. Unlock user account in Active Directory Administrative Center.
+5. Monitor BadPwdCount for 10 minutes to verify stabilization.","Identify caller machine via Event ID 4740 on PDC, clear cached Windows credentials/scheduled tasks on that host, then unlock AD account."
+KB-2007,Kubernetes Pod CrashLoopBackOff: OOMKilled (Exit Code 137),Cloud & Infrastructure,Kubernetes / Containers,EKS / GKE Clusters,"[""kubernetes"", ""k8s"", ""crashloopbackoff"", ""oomkilled"", ""exit code 137"", ""memory limit""]",Container restarts repeatedly in production namespace; kubectl describe pod shows 'OOMKilled: true (Exit Code 137)'.,Application JVM heap or memory consumption exceeded container cgroup hard limit defined in deployment manifest.,"1. Run 'kubectl describe pod <pod_name> -n <namespace>' and confirm termination reason 'OOMKilled'.
+2. Check Grafana/Prometheus container_memory_working_set_bytes before crash.
+3. Submit a PR to adjust resources.limits.memory in Helm values (increase by 50% headroom).
+4. For Java services, tune '-XX:MaxRAMPercentage=75.0' to prevent native memory exhaustion.
+5. Apply deployment and monitor rollouts.",Confirm Exit Code 137 via kubectl describe pod and increase container memory limit in Helm values or tune JVM MaxRAMPercentage.
+KB-2008,Dell USB-C / Thunderbolt Docking Station External Display Flickering,Hardware & Workplace Support,Peripherals & Docks,Dell WD19 / WD22TB Docks,"[""docking station"", ""display flickering"", ""dell dock"", ""usb-c"", ""monitor black screen"", ""thunderbolt""]",External monitors connected via DisplayPort to Dell docking station go black intermittently for 2-3 seconds.,Outdated Realtek MST hub firmware or Intel Iris Xe Graphics driver display refresh rate desync.,"1. Disconnect dock from laptop and unplug dock power adapter for 30 seconds (power drain).
+2. Connect dock and run Dell Command | Update to install latest Dock Firmware Utility (WD19/WD22).
+3. In Windows Advanced Display Settings, change refresh rate of external monitors from 59.94Hz to exactly 60.00Hz.
+4. Update Intel / NVIDIA graphics driver to verified enterprise release.
+5. Test with certified DP 1.4 cables.","Power cycle dock, apply latest Dell Dock MST Firmware update, and ensure display refresh rate is set to exactly 60Hz."
+KB-2009,Salesforce Single Sign-On (SSO) SAML Assertion Expired / Invalid Issuer,Enterprise Applications,Salesforce CRM,Salesforce,"[""salesforce"", ""sso"", ""saml"", ""assertion expired"", ""identity provider"", ""login error""]",Users receive 'Single Sign-On Error: We cannot log you in because of an issue with single sign-on' when logging into Salesforce.,IdP signing certificate expired or SAML assertion clock skew exceeds 180 seconds between IdP and Salesforce.,"1. In Salesforce Setup > Single Sign-On Settings > SAML Assertion Validator, paste the SAML response from browser inspector.
+2. If error indicates 'Signature Invalid' or 'Expired Certificate', download current IdP metadata certificate from Azure AD/Okta.
+3. Upload new certificate under Identity Provider Certificate in Salesforce SAML config.
+4. Ensure SAML Identity Type matches 'User's Salesforce username' or 'Federation ID'.
+5. Save and initiate test login.","Use Salesforce SAML Assertion Validator to inspect payload, then update expired IdP signing certificate in SSO settings."
+KB-2010,GitLab CI/CD Pipeline Shared Runner Execution Timeout and Stuck Jobs,Developer Tools & DevOps,GitLab / CI/CD,GitLab Shared Runners,"[""gitlab"", ""runner"", ""ci/cd"", ""pipeline stuck"", ""docker daemon"", ""timeout""]",Pipelines remain in 'Pending' status indefinitely or fail with 'Job failed: execution took longer than 1h0m0s'.,Docker image cache disk full on runner host (ENOSPC) or runner registration token revoked.,"1. SSH into runner host and inspect disk usage via 'df -h /var/lib/docker'.
+2. Run 'docker system prune -af --volumes' to clean orphan build layers and stopped containers.
+3. Restart gitlab-runner service: 'sudo systemctl restart gitlab-runner'.
+4. Verify runner status in GitLab Group > CI/CD Settings > Runners (should show green checkmark).
+5. Retry stuck pipeline.","Inspect runner storage with 'df -h', execute 'docker system prune -af --volumes' to free disk space, and restart gitlab-runner."
+KB-2011,Oracle Database Connection Pool Exhaustion (ORA-00018: maximum number of sessions exceeded),Cloud & Infrastructure,Database & Storage,Oracle Database 19c,"[""oracle"", ""ora-00018"", ""connection pool"", ""sessions exceeded"", ""db connection""]",Application backend logs throw 'ORA-00018: maximum number of sessions exceeded' and user HTTP requests hang at 504 Gateway Timeout.,Leaked unclosed JDBC connections in microservices batch worker thread pool reaching Oracle SESSIONS limit.,"1. Run 'SELECT count(*), status, username, machine FROM v$session GROUP BY status, username, machine;' to locate connection leak source.
+2. Identify offending service and kill inactive sessions: 'ALTER SYSTEM KILL SESSION 'sid,serial#' IMMEDIATE;'.
+3. Configure HikariCP connection pool with 'maxLifetime=1800000' and 'idleTimeout=600000'.
+4. If business load has organically scaled, increase SESSIONS parameter in spfile: 'ALTER SYSTEM SET SESSIONS=1200 SCOPE=SPFILE;'.
+5. Restart connection pool client pods.","Query v$session to locate unclosed JDBC connection pool leaks, terminate inactive sessions, and tune HikariCP maxLifetime/idleTimeout."
+KB-2012,Microsoft Teams Microphone and Audio Device Not Detected on Windows,Collaboration & Email,Microsoft Teams,Microsoft Teams Client,"[""teams"", ""microphone"", ""audio not working"", ""headset"", ""media settings""]",User cannot speak during meetings; Teams banner displays 'Your microphone isn't working'.,Windows 11 Privacy & Security setting revoked desktop app microphone permissions or exclusive audio mode conflict.,"1. Open Windows Settings > Privacy & Security > Microphone.
+2. Ensure 'Microphone access' is ON and 'Let desktop apps access your microphone' is enabled.
+3. In Teams Settings > Devices, select the specific headset instead of 'PC Mic and Speakers'.
+4. In Sound Control Panel (mmsys.cpl), uncheck 'Allow applications to take exclusive control of this device'.
+5. Place a test call under Teams Device Settings.",Enable Windows Microphone Privacy settings for desktop apps and disable exclusive control in Sound Control Panel.
+KB-2013,Corporate Wi-Fi 802.1X Authentication Failure (Certificate Untrusted),Network & Connectivity,Wi-Fi & LAN,Enterprise Wi-Fi (Corp-Secure),"[""wifi"", ""802.1x"", ""radius"", ""certificate untrusted"", ""wpa2 enterprise""]",Laptops fail to connect to 'Corp-Secure' Wi-Fi SSID; Windows reports 'Can't connect to this network' or repeatedly prompts for credentials.,RADIUS server EAP certificate expired or corporate root CA certificate missing from user's Trusted Root Certification Authorities store.,"1. Connect temporarily to 'Corp-Guest' SSID.
+2. Open certmgr.msc and inspect 'Trusted Root Certification Authorities' for 'Corp-Internal-Root-CA-2024'.
+3. If missing or expired, run 'gpupdate /force' in Command Prompt to push updated Group Policy certificates.
+4. Forget 'Corp-Secure' Wi-Fi profile in Windows Network Settings and reconnect with domain credentials.","Verify Corp-Internal-Root-CA in certmgr.msc, run 'gpupdate /force' to pull updated RADIUS trust certs, and rejoin Corp-Secure SSID."
+KB-2014,Workday HRIS Self-Service Onboarding Form Submission 500 Internal Error,Enterprise Applications,Workday HRIS,Workday,"[""workday"", ""onboarding"", ""500 error"", ""hris"", ""form submission""]",New hires unable to submit Form I-9 or Direct Deposit; screen displays 'An internal system error occurred. Please contact your administrator'.,Missing worker position hierarchy mapping or invalid tax location code assigned by recruiting.,"1. In Workday search bar, look up the worker's Pre-Hire record.
+2. Check 'Staffing History' and inspect the Business Process Event log for error stack.
+3. Reassign supervisory organization hierarchy if blank.
+4. Correct tax jurisdiction code to match postal code.
+5. Re-launch the onboarding step in Workday Business Process.","Check Workday Pre-Hire Business Process Event log for validation errors, reassign supervisory org, and re-launch onboarding step."
+KB-2015,Windows BSOD Stop Code DRIVER_IRQL_NOT_LESS_OR_EQUAL (NETIO.SYS),Hardware & Workplace Support,OS / Blue Screen BSOD,Windows 11 Workstations,"[""bsod"", ""blue screen"", ""netio.sys"", ""driver irql"", ""crash dump""]",Workstation crashes randomly with Blue Screen showing Stop Code: DRIVER_IRQL_NOT_LESS_OR_EQUAL What failed: NETIO.SYS.,Outdated Intel Wi-Fi / Ethernet network adapter driver causing kernel memory corruption during sleep/wake transition.,"1. Boot system in Safe Mode with Networking if bootlooping.
+2. Open Device Manager > Network Adapters.
+3. Right-click Intel Wi-Fi 6E AX211 > Update Driver > Browse my computer.
+4. Install enterprise package v22.250.0 or newer.
+5. Run 'sfc /scannow' to repair corrupted system files and reboot normally.",Upgrade Intel Wi-Fi / Ethernet adapter driver to v22.250.0+ in Device Manager and run 'sfc /scannow' to fix NETIO.SYS crash.

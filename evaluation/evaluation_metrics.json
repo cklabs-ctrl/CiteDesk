@@ -1,0 +1,67 @@
+{
+  "dataset": {
+    "total_incidents": 745,
+    "train_set_size": 521,
+    "test_set_size": 224,
+    "problem_categories": 14
+  },
+  "classification": {
+    "category_accuracy": 1.0,
+    "category_macro_f1": 1.0,
+    "priority_accuracy": 0.3259
+  },
+  "retrieval": {
+    "top1_category_hit": 1.0,
+    "top3_category_hit": 1.0,
+    "mean_reciprocal_rank": 1.0
+  },
+  "decision_gate": {
+    "test_distribution": {
+      "FIX": 224,
+      "ASK": 0,
+      "ESCALATE": 0
+    },
+    "tricky_suite_results": [
+      {
+        "test_id": "TEST-ASK-01",
+        "expected": "ASK",
+        "actual": "ASK",
+        "passed": true,
+        "reason": "Ambiguous diagnosis: Multiple competing technical causes detected. Evidence points to 'Active Directory Account Lockout' (0.18) while competing signals indicate 'SSO & MFA Prompt Authentication Loop'."
+      },
+      {
+        "test_id": "TEST-ASK-02",
+        "expected": "ASK",
+        "actual": "ASK",
+        "passed": true,
+        "reason": "Ambiguous diagnosis: Multiple competing technical causes detected. Evidence points to 'Corporate Wi-Fi 802.1X / RADIUS Failure' (0.19) while competing signals indicate 'Corporate Wi-Fi 802.1X / RADIUS Failure'."
+      },
+      {
+        "test_id": "TEST-ESC-01",
+        "expected": "ESCALATE",
+        "actual": "ESCALATE",
+        "passed": true,
+        "reason": "Insufficient confidence in single root cause. Forwarding for Tier 2 manual triage."
+      },
+      {
+        "test_id": "TEST-ESC-02",
+        "expected": "ESCALATE",
+        "actual": "ESCALATE",
+        "passed": true,
+        "reason": "Low evidence confidence (Top similarity: 0.09, Category certainty: 0.14). No verified playbook exists."
+      },
+      {
+        "test_id": "TEST-LOOKALIKE-01",
+        "expected": "ASK",
+        "actual": "ASK",
+        "passed": true,
+        "reason": "Ambiguous diagnosis: Multiple competing technical causes detected. Evidence points to 'GlobalProtect VPN Immediate Disconnect' (0.17) while competing signals indicate 'Expired TLS Certificates & Incomplete Chain'."
+      }
+    ]
+  },
+  "safety_and_grounding": {
+    "verified_steps_count": 1146,
+    "proof_verification_rate": 100.0,
+    "unverified_steps_leaked": 0
+  }
+}

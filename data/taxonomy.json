@@ -1,0 +1,110 @@
+{
+  "categories": [
+    {
+      "name": "Identity & Access Management",
+      "subcategories": [
+        "MFA / 2FA",
+        "Active Directory",
+        "Application Access Request",
+        "Single Sign-On / SAML"
+      ],
+      "default_assignment_group": "IAM-Support"
+    },
+    {
+      "name": "Network & Connectivity",
+      "subcategories": [
+        "VPN",
+        "Wi-Fi & LAN",
+        "DNS / Routing",
+        "Firewall & Security Gateway"
+      ],
+      "default_assignment_group": "NetOps-Support"
+    },
+    {
+      "name": "Enterprise Applications",
+      "subcategories": [
+        "SAP ERP",
+        "Salesforce CRM",
+        "Workday HRIS",
+        "Oracle EBS"
+      ],
+      "default_assignment_group": "Enterprise-Apps-Team"
+    },
+    {
+      "name": "Cloud & Infrastructure",
+      "subcategories": [
+        "AWS IAM / S3",
+        "Kubernetes / Containers",
+        "Azure Virtual Machines",
+        "Database & Storage"
+      ],
+      "default_assignment_group": "Cloud-Ops"
+    },
+    {
+      "name": "Collaboration & Email",
+      "subcategories": [
+        "Microsoft 365 / Outlook",
+        "Microsoft Teams",
+        "Slack & Zoom"
+      ],
+      "default_assignment_group": "Workplace-Support"
+    },
+    {
+      "name": "Hardware & Workplace Support",
+      "subcategories": [
+        "Peripherals & Docks",
+        "Laptop Hardware Damage",
+        "OS / Blue Screen BSOD",
+        "Printing Services"
+      ],
+      "default_assignment_group": "Desktop-Support"
+    },
+    {
+      "name": "Developer Tools & DevOps",
+      "subcategories": [
+        "GitLab / CI/CD",
+        "GitHub & Version Control",
+        "Docker & Container Runtime",
+        "Artifactory & Package Repo"
+      ],
+      "default_assignment_group": "DevOps-Support"
+    }
+  ],
+  "priorities": [
+    {
+      "level": "P1 - Critical",
+      "description": "Complete service outage affecting multiple users or business-critical revenue/production process."
+    },
+    {
+      "level": "P2 - High",
+      "description": "High business impact or single customer-critical blocker with no immediate workaround."
+    },
+    {
+      "level": "P3 - Medium",
+      "description": "Operational issue with existing workaround or single non-critical user workflow degradation."
+    },
+    {
+      "level": "P4 - Low",
+      "description": "Minor inquiry, cosmetic issue, or low-urgency service request."
+    }
+  ],
+  "environments": [
+    "Production",
+    "Staging",
+    "QA",
+    "Corporate",
+    "Development"
+  ],
+  "assignment_groups": [
+    "IAM-Support",
+    "NetOps-Support",
+    "Cloud-Ops",
+    "DevOps-Support",
+    "Enterprise-Apps-Team",
+    "SAP-Core-Support",
+    "CRM-Ops",
+    "Workplace-Support",
+    "Desktop-Support",
+    "Triage-Queue"
+  ]
+}

@@ -1,0 +1,60 @@
+[
+  {
+    "test_id": "TEST-ASK-01",
+    "title": "Cannot sign in to corporate applications after password update",
+    "description": "I updated my credentials this morning and now cannot access corporate tools. The sign-in page fails and redirects repeatedly. Unclear whether the account is locked or MFA authentication is failing in a prompt loop.",
+    "expected_decision": "ASK",
+    "competing_causes": [
+      "INC-SML (MFA Prompt Loop)",
+      "INC-ALP (AD Account Lockout)"
+    ],
+    "disambiguating_question": "Are you receiving an explicit 'Account Locked' error, or are you trapped in repeated browser MFA redirects?",
+    "expected_category": "Identity & Access Management",
+    "note": "Ambiguous symptoms between MFA loop and Account Lockout"
+  },
+  {
+    "test_id": "TEST-ASK-02",
+    "title": "Network disconnected right after connection established",
+    "description": "My network connection drops immediately within 2 seconds of connecting. Cannot tell if the disconnect is originating from GlobalProtect VPN or the Corporate Wi-Fi network.",
+    "expected_decision": "ASK",
+    "competing_causes": [
+      "INC-VDA (GlobalProtect VPN)",
+      "INC-WCI (Corporate Wi-Fi)"
+    ],
+    "disambiguating_question": "Does this disconnect occur while connected over GlobalProtect VPN, or directly on the Corporate Wi-Fi network?",
+    "expected_category": "Network & Connectivity",
+    "note": "Ambiguous between wireless RADIUS drops and VPN client certificate issues"
+  },
+  {
+    "test_id": "TEST-ESC-01",
+    "title": "Quantum DB cluster partition error in production zone 4",
+    "description": "Production database node quantum-db-04 failed quorum sync with error QD-9941 raft state corrupt. Data pipeline halted.",
+    "expected_decision": "ESCALATE",
+    "competing_causes": [],
+    "target_team": "Core Infrastructure Database Ops",
+    "expected_category": "Out of Distribution / Unknown",
+    "note": "Novel system not present in historical corpus of 745 workspace incidents"
+  },
+  {
+    "test_id": "TEST-ESC-02",
+    "title": "Need help with computer problem",
+    "description": "Something stopped working today please fix it as soon as possible it is very urgent thank you.",
+    "expected_decision": "ESCALATE",
+    "competing_causes": [],
+    "target_team": "IT Service Desk Tier 1",
+    "expected_category": "Vague / Insufficient Detail",
+    "note": "Extremely vague ticket with zero technical diagnostic details"
+  },
+  {
+    "test_id": "TEST-LOOKALIKE-01",
+    "title": "Certificate expired error when opening internal HR portal",
+    "description": "Users get an SSL/TLS error NET::ERR_CERT_DATE_INVALID when navigating to internal HR benefits portal via Edge browser.",
+    "expected_decision": "ASK",
+    "competing_causes": [
+      "INC-VDA (Device Cert)",
+      "INC-CES (Service TLS Cert)"
+    ],
+    "distractor_to_avoid": "INC-VDA",
+    "note": "Lookalike keyword 'certificate', but web service TLS rather than endpoint VPN cert"
+  }
+]

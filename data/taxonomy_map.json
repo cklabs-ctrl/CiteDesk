@@ -1,0 +1,86 @@
+{
+  "INC-AIT": {
+    "name": "Integration Gateway & API Timeouts",
+    "domain": "Enterprise Applications",
+    "restricted": false,
+    "default_team": "Enterprise Integration Team"
+  },
+  "INC-ALP": {
+    "name": "Active Directory Account Lockout",
+    "domain": "Identity & Access Management",
+    "restricted": true,
+    "default_team": "Identity & Access Support"
+  },
+  "INC-CES": {
+    "name": "Expired TLS Certificates & Incomplete Chain",
+    "domain": "Cloud & Infrastructure",
+    "restricted": false,
+    "default_team": "Cloud Infrastructure Ops"
+  },
+  "INC-DCP": {
+    "name": "Intune Device Compliance & Conditional Access",
+    "domain": "Hardware & Endpoint Security",
+    "restricted": false,
+    "default_team": "Modern Workplace Endpoint Team"
+  },
+  "INC-DRF": {
+    "name": "Internal DNS Resolution Failure",
+    "domain": "Network & Connectivity",
+    "restricted": false,
+    "default_team": "Core Network Operations"
+  },
+  "INC-EDE": {
+    "name": "Endpoint Disk Encryption & BitLocker TPM",
+    "domain": "Hardware & Endpoint Security",
+    "restricted": true,
+    "default_team": "Endpoint Security Operations"
+  },
+  "INC-LPD": {
+    "name": "Laptop Performance Degradation & Startup Policy",
+    "domain": "Hardware & Workplace Support",
+    "restricted": false,
+    "default_team": "Desktop Engineering"
+  },
+  "INC-OES": {
+    "name": "Outlook Desktop & Exchange Sync Failure",
+    "domain": "Collaboration & Email",
+    "restricted": false,
+    "default_team": "Microsoft 365 Operations"
+  },
+  "INC-PDQ": {
+    "name": "Print Spooler Crash & Stuck Queue",
+    "domain": "Hardware & Workplace Support",
+    "restricted": false,
+    "default_team": "Workplace Infrastructure Support"
+  },
+  "INC-SDA": {
+    "name": "Shared Drive Access Denied & Group Membership",
+    "domain": "Identity & Access Management",
+    "restricted": true,
+    "default_team": "Identity & Access Support"
+  },
+  "INC-SIB": {
+    "name": "Software Center Deployment & Entitlement Block",
+    "domain": "Enterprise Applications",
+    "restricted": false,
+    "default_team": "Client Platform Engineering"
+  },
+  "INC-SML": {
+    "name": "SSO & MFA Prompt Authentication Loop",
+    "domain": "Identity & Access Management",
+    "restricted": true,
+    "default_team": "Identity & Access Support"
+  },
+  "INC-VDA": {
+    "name": "GlobalProtect VPN Immediate Disconnect",
+    "domain": "Network & Connectivity",
+    "restricted": false,
+    "default_team": "Network Security & VPN Team"
+  },
+  "INC-WCI": {
+    "name": "Corporate Wi-Fi 802.1X / RADIUS Failure",
+    "domain": "Network & Connectivity",
+    "restricted": false,
+    "default_team": "Wireless Network Operations"
+  }
+}
